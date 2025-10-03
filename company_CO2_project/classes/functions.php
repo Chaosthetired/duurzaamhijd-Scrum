@@ -7,56 +7,49 @@ class functions {
         $this->pdo = $pdo;
     }
 
-    public function addtype($type_name)
-    {
-        $query = "INSERT INTO ams_image_to_text (image_to_text_image_id, image_to_text_text_id) 
-                VALUES (:image_id, :text_id)";
-        $this->pdo->query($query);
-        $this->pdo->bind(':type_name', $type_name);
-        $this->pdo->execute();
-        return $this->pdo->lastInsertId();
-    }
 
-    public function selectImageToTextALL()
-    {
-        $query = "SELECT * FROM ams_image_to_text";
-        $this->pdo->query($query);
-        $this->pdo->execute();
-        return $this->pdo->getRows();
-    }
+public function addtype($type_name)
+ { 
+    $query = "INSERT INTO type_table (type_name) 
+    VALUES (:type_name)"; $this->pdo->query($query); 
+    $this->pdo->bind(':type_name', $type_name); 
+    $this->pdo->execute(); 
+    return $this->pdo->lastInsertId(); 
+}
 
-    public function addImageToText($image_id, $text_id)
-    {
-        var_dump($image_id);
-        $query = "INSERT INTO ams_image_to_text (image_to_text_image_id, image_to_text_text_id) 
-                VALUES (:image_id, :text_id)";
-        $this->pdo->query($query);
-        $this->pdo->bind(':image_id', $image_id);
-        $this->pdo->bind(':text_id', $text_id);
-        $this->pdo->execute();
-        return $this->pdo->lastInsertId();
-    }
+public function getTypeById($type_id)
+{
+    $query = "SELECT type_id, type_name
+              FROM type_table
+              WHERE type_id = :type_id";
+    $this->pdo->query($query);
+    $this->pdo->bind(':type_id', $type_id);
+    $this->pdo->execute();
 
-    public function deleteImageToText($image_to_text_id)
-    {
-        $query = "DELETE FROM ams_image_to_text WHERE image_to_text_id = :image_to_text_id";
-        $this->pdo->query($query);
-        $this->pdo->bind(':image_to_text_id', $image_to_text_id);
-        $this->pdo->execute();
-    }
+    // If your abstraction has single()/resultSet(), use single(); otherwise adjust to your fetch method.
+    return $this->pdo->getRow(); 
+}
 
-    public function updateImageToText($text_id, $image_id, $image_to_text_id)
-    {
-        $query = "UPDATE ams_image_to_text SET 
-            image_to_text_image_id = :image_id, 
-            image_to_text_text_id = :text_id
-            WHERE image_to_text_id = :image_to_text_id";
-        $this->pdo->query($query);
-        $this->pdo->bind(':image_to_text_id', $image_to_text_id);
-        $this->pdo->bind(':image_id', $image_id);
-        $this->pdo->bind(':text_id', $text_id);
-        $this->pdo->execute();
+public function getAllTypes()
+{
+    $query = "SELECT type_id, type_name
+              FROM type_table
+              ORDER BY type_id";
+    $this->pdo->query($query);
+    $this->pdo->execute();
 
-        return $this->pdo->lastInsertId();
-    }
+    // If your abstraction has resultSet(), use it; otherwise adjust to your fetchAll method.
+    return $this->pdo->getRows();
+}
+
+public function updateType($type_id, $type_name)
+{
+    $query = "UPDATE type_table
+              SET type_name = :type_name
+              WHERE type_id = :type_id";
+    $this->pdo->query($query);
+    $this->pdo->bind(':type_name', $type_name);
+    $this->pdo->bind(':type_id', $type_id);
+    $this->pdo->execute();
+}
 }

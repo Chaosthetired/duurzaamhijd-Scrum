@@ -1,19 +1,25 @@
-<?php 
-require_once("include/db.inc.php");
-require_once("classes/functions.php");
-$pdo = connect();
+<?php
+ require_once("include/db.inc.php");
+ require_once("classes/functions.php");
+ $pdo = connect();
  $fctopj = new functions($pdo);
 
-$page_id = isset($_GET['id']) ? intval($_GET['id']) : null;
-if ($page_id === null) {
-    $page_id = isset($_POST['Dropdown_type']) ? intval($_POST['Dropdown_type']) : null;
+$type_id = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+if($type_id == null) {
+    $type_id = isset($_POST['Dropdown_artist']) ? intval($_POST['Dropdown_artist']) : null;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $page_name = trim(htmlspecialchars($_POST['input_page_name']));
+$typeRow = $fctopj->getTypeById($type_id);
 
-    $pageobj->updatepage($image_to_text_id, $branch, $page_name, $page_id);
-
-    header('Location: getchange_page.php?id=' . $page_id);
-    exit();
-}
+print_r($typeRow);
+ ?>
+<form action="addchange_type.php?id=<?php echo $type_id; ?>" method="post" enctype="multipart/form-data">
+    <h2>Page toevoegen</h2>
+    <label for="input_type_name">type name:</label>
+    <input type="text" name="input_type_name" placeholder="type name" id="input_type_name" value='<?php echo $typeRow['type_name'] ?>'>
+    <br>
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>
