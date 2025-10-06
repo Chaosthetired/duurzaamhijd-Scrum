@@ -1,7 +1,8 @@
 <?php
  require_once("include/db.inc.php");
+ require_once("include/auth_check.php");
  $pdo = connect();
- 
+include "include/header.php";
  ?>
 <form action="add_type.php" method="post" enctype="multipart/form-data">
     <h2>Page toevoegen</h2>

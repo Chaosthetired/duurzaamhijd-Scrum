@@ -1,6 +1,7 @@
 <?php
  require_once("include/db.inc.php");
  require_once("classes/functions.php");
+ require_once("include/auth_check.php");
  $pdo = connect();
  $fctopj = new functions($pdo);
 

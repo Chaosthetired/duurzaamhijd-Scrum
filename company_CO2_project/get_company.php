@@ -5,6 +5,7 @@
  $fctopj = new functions($pdo);
 
  $typeRows = $fctopj->getAllTypes();
+ include "include/header.php";
  ?>
 <form action="add_company.php" method="post" enctype="multipart/form-data">
     <h2>company toevoegen</h2>

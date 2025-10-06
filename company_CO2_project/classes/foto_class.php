@@ -36,7 +36,7 @@
     }
     }
 
-    public function selectimagefirst($logo_id){
+    public function selectlogo($logo_id){
         $query = "SELECT * FROM logo_table WHERE logo_id = :logo_id";
         $this->pdo->query($query);
         $this->pdo->bind(':logo_id', $logo_id,);
