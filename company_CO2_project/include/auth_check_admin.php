@@ -1,15 +1,16 @@
 <?php
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    // Redirect to login page
+// Require login
+if (empty($_SESSION['logged_in'])) {
     header("Location: home_login.php");
     exit;
 }
-if ($_SESSION['role'] !== 'admin') {
-    echo "Access denied not admin";
-    sleep(5);
+
+// Require role: admin OR superuser
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'superuser'], true)) {
+    // Optional: set a flash message before redirecting
+    // $_SESSION['flash'] = 'Access denied: admin or superuser required.';
     header("Location: home_login.php");
     exit;
 }

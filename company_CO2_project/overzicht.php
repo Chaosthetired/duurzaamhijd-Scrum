@@ -12,13 +12,6 @@ $companyRows = $comobj->getAllCompanies();
 
 include "include/header.php";
 ?>
-
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <meta charset="UTF-8">
-  <title>Overzicht bedrijven</title>
-</head>
 <body>
 
 

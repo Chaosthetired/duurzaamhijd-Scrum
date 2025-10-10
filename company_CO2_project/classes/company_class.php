@@ -10,87 +10,75 @@ class company_class {
     /**
      * Create (INSERT) a company using individual params (no arrays)
      */
-    public function addCompany(
-        $company_name,
-        $emissions,
-        $electricity,
-        $source,
-        $selected_type_id,
-        $logo_id,
-        $active = 0
-    ) {
-        $query = "INSERT INTO company_table (
-                    company_name,
-                    company_type,
-                    company_emissions,
-                    logo_id,
-                    company_source,
-                    company_electricity_use,
-                    company_active
-                  )
-                  VALUES (
-                    :company_name,
-                    :company_type,
-                    :company_emissions,
-                    :logo_id,
-                    :company_source,
-                    :company_electricity_use,
-                    :company_active
-                  )";
+    public function addCompany(array $data): int
+        {
+        // 1) Whitelist columns you actually allow to be set from PHP
+        $allowed = [
+            'company_name',
+            'company_type',
+            'company_emissions',
+            'logo_id',
+            'company_source',
+            'company_electricity_use',
+            'company_version',
+            'company_status',
+            'company_user_submit_id',
+            'company_admin_reviewed_by_id',
+            'company_reviewed_at',
+            'company_active',
+        ];
 
-        $this->pdo->query($query);
-        $this->pdo->bind(':company_name',            $company_name);
-        $this->pdo->bind(':company_type',            $selected_type_id);
-        $this->pdo->bind(':company_emissions',       $emissions);
-        $this->pdo->bind(':logo_id',                 $logo_id);
-        $this->pdo->bind(':company_source',          $source);
-        $this->pdo->bind(':company_electricity_use', $electricity);
-        $this->pdo->bind(':company_active',          $active);
+        // 2) Keep only allowed keys
+        $data = array_intersect_key($data, array_flip($allowed));
+
+        // 3) Defaults
+        $defaults = [
+            'company_user_submit_id'       => 0,          // guest
+            'company_status'               => 'pending',
+            'company_version'              => 1,
+            'company_admin_reviewed_by_id' => null,
+            'company_reviewed_at'          => null,
+        ];
+        $data = array_replace($defaults, $data);
+
+        // 4) Build dynamic INSERT
+        $cols        = array_keys($data);
+        $placeholders= array_map(fn($c) => ':' . $c, $cols);
+
+        // Add submitted_at as SQL NOW()
+        $cols[]         = 'company_company_submited_at';
+        $placeholders[] = 'NOW()';
+
+        $sql = 'INSERT INTO company_table (' . implode(',', $cols) . ')
+                VALUES (' . implode(',', $placeholders) . ')';
+
+        $this->pdo->query($sql);
+
+        // Bind values
+        foreach ($data as $col => $val) {
+            $this->pdo->bind(':' . $col, $val);
+        }
 
         $this->pdo->execute();
-        return $this->pdo->lastInsertId();
+
+        // Your abstraction has lastInsertId()
+        return (int)$this->pdo->lastInsertId();
     }
 
-    /**
-     * Read (SELECT) a single company by ID
-     */
-    public function getCompanyById($company_id)
+/** Optional helper if you want the full row back right away */
+    public function getCompanyById(int $company_id): array
     {
-        $query = "SELECT
-                    company_id,
-                    company_name,
-                    company_type,
-                    company_emissions,
-                    logo_id,
-                    company_source,
-                    company_electricity_use,
-                    company_active
-                  FROM company_table
-                  WHERE company_id = :company_id";
-
-        $this->pdo->query($query);
-        $this->pdo->bind(':company_id', $company_id);
+        $this->pdo->query('SELECT * FROM company_table WHERE company_id = :id');
+        $this->pdo->bind(':id', $company_id);
         $this->pdo->execute();
-
-        return $this->pdo->getRow();
+        return $this->pdo->getRow(); // or fetch assoc via your abstraction
     }
-
     /**
      * Read (SELECT) all companies
      */
     public function getAllCompanies()
     {
-        $query = "SELECT
-                    company_id,
-                    company_name,
-                    company_type,
-                    company_emissions,
-                    logo_id,
-                    company_source,
-                    company_electricity_use,
-                    company_active
-                  FROM company_table
-                  ORDER BY company_id";
+        $query = "SELECT * FROM company_table";
 
         $this->pdo->query($query);
         $this->pdo->execute();

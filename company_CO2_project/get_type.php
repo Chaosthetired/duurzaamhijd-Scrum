@@ -1,6 +1,6 @@
 <?php
  require_once("include/db.inc.php");
- require_once("include/auth_check.php");
+ require_once("include/auth_check_admin.php");
  $pdo = connect();
 include "include/header.php";
  ?>

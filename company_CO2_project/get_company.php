@@ -1,11 +1,13 @@
 <?php
  require_once("include/db.inc.php");
  require_once("classes/functions.php");
+ require_once("include/auth_check.php");
  $pdo = connect();
  $fctopj = new functions($pdo);
 
  $typeRows = $fctopj->getAllTypes();
  include "include/header.php";
+
  ?>
 <form action="add_company.php" method="post" enctype="multipart/form-data">
     <h2>company toevoegen</h2>

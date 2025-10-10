@@ -9,7 +9,7 @@ $loginopj = new login($pdo);
 
 // If the user is already logged in, redirect to welcome page
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    header("Location: get_page.php");
+    header("Location: get_company.php");
     exit;
 }
 
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         session_regenerate_id(true);
         $_SESSION['logged_in'] = true;
         $_SESSION['username'] = $username;
-        $_SESSION['role'] = $user['Role'];
+        $_SESSION['role'] = $user['role'];
         header("Location: get_company.php");
         exit;
     } else {
@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <title>Login Page</title>
 </head>
+<link rel="stylesheet" href="CSS/login.css">
 <body>
     <h2>Login</h2>
     <?php 
