@@ -1,0 +1,77 @@
+database design
+
+-- public.company_table definition
+
+-- Drop table
+
+-- DROP TABLE public.company_table;
+
+CREATE TABLE public.company_table (
+	company_id serial4 NOT NULL,
+	company_name varchar NULL,
+	company_type int4 NULL,
+	company_emissions numeric NULL,
+	logo_id int4 NULL,
+	company_source varchar NULL,
+	company_electricity_use numeric NULL,
+	company_version int4 NULL,
+	company_status varchar NULL,
+	company_user_submit_id int4 NULL,
+	company_admin_reviewed_by_id int4 NULL,
+	company_reviewed_at timestamp NULL,
+	company_company_submited_at timestamp NULL,
+	CONSTRAINT company_table_pk PRIMARY KEY (company_id)
+);
+
+
+-- public.logo_table definition
+
+-- Drop table
+
+-- DROP TABLE public.logo_table;
+
+CREATE TABLE public.logo_table (
+	logo_id serial4 NOT NULL,
+	logo_path varchar NULL
+);
+
+
+-- public.company_display_table definition
+
+-- Drop table
+
+-- DROP TABLE public.company_display_table;
+
+CREATE TABLE public.company_display_table (
+	company_display_id serial4 NOT NULL,
+	company_display_version int4 NULL,
+	company_display_version_id int4 NULL,
+	CONSTRAINT company_display_table_pk PRIMARY KEY (company_display_id)
+);
+
+-- public.type_table definition
+
+-- Drop table
+
+-- DROP TABLE public.type_table;
+
+CREATE TABLE public.type_table (
+	type_id serial4 NOT NULL,
+	type_name varchar NULL,
+	CONSTRAINT type_table_pk PRIMARY KEY (type_id)
+);
+
+-- public.users definition
+
+-- Drop table
+
+-- DROP TABLE public.users;
+
+CREATE TABLE public.users (
+	acount_id serial4 NOT NULL,
+	username varchar NULL,
+	passwordcode varchar NULL,
+	"password" varchar NULL,
+	"role" varchar NULL,
+	CONSTRAINT users_pk PRIMARY KEY (acount_id)
+);
