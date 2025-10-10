@@ -1,0 +1,202 @@
+/* Modern Overview Table Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #6ba368 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 40px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+}
+
+/* Table Container */
+.table-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow-x: auto;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+}
+
+/* Table Header */
+thead {
+    background: linear-gradient(135deg, #4a7c59 0%, #6ba368 100%);
+}
+
+th {
+    padding: 18px 15px;
+    text-align: left;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+thead tr th:first-child {
+    border-top-left-radius: 12px;
+}
+
+thead tr th:last-child {
+    border-top-right-radius: 12px;
+}
+
+/* Table Body */
+tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:hover {
+    background: linear-gradient(90deg, rgba(74, 124, 89, 0.08) 0%, rgba(107, 163, 104, 0.08) 100%);
+    transform: scale(1.01);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+td {
+    padding: 16px 15px;
+    color: #333;
+    font-size: 15px;
+    border: none;
+}
+
+/* Logo Styling */
+.logo {
+    max-height: 60px;
+    max-width: 100px;
+    border-radius: 8px;
+    object-fit: contain;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+/* Muted Text */
+.muted {
+    color: #999;
+    font-style: italic;
+}
+
+/* Number Formatting */
+td:nth-child(3),
+td:nth-child(4) {
+    font-weight: 600;
+    color: #4a7c59;
+}
+
+/* Type Badge */
+td:nth-child(5) {
+    font-weight: 500;
+}
+
+/* Source Column */
+td:nth-child(6) {
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .table-container {
+        padding: 20px;
+    }
+    
+    th, td {
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+    
+    h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px 10px;
+    }
+    
+    h1 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+    
+    .table-container {
+        padding: 15px;
+        border-radius: 12px;
+    }
+    
+    th, td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+    
+    .logo {
+        max-height: 40px;
+        max-width: 60px;
+    }
+}
+
+/* Loading Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-container {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.empty-state h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #4a7c59;
+}
+
+.empty-state p {
+    font-size: 16px;
+}
