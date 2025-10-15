@@ -1,10 +1,14 @@
 <?php
 
-$str_path = "";
-if (stristr($_SERVER['SCRIPT_NAME'], "include")) {
-    $str_path = "../";
-}
-require_once($str_path . 'classes/database_abstractie_class.php');
+declare(strict_types=1);
+
+// Path to project root (db.inc.php is in /include, so go one up)
+$ROOT = dirname(__DIR__);
+
+// NEVER rely on CWD; always use absolute paths
+require_once $ROOT . '/classes/database_abstractie_class.php';   // <- no trailing space!
+require_once $ROOT . '/classes/company_class.php';    
+
 function connect()
 {
     // mySQL

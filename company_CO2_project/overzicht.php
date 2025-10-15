@@ -20,31 +20,36 @@ include "include/header.php";
     <tr>
       <th>Logo</th>
       <th>Bedrijf</th>
-      <th>CO₂-uitstoot (ton/jaar)</th>
+      <th>CO₂-uitstoot (miljoen ton/jaar)</th>
       <th>Elektriciteitsgebruik (kWh/jaar)</th>
       <th>typen</th>
       <th>Bron</th>
     </tr>
 <?php foreach ($companyRows as $company): ?>
-    <?php 
-      $company_show = $company['company_active'];
+  <?php
+    if (($company['company_status'] ?? null) === 'accepted') {
+        $logo_id  = $company['logo_id']        ?? null;
+        $type_id  = $company['company_type']    ?? null;
 
-      if ($company_show) {  // only show if it's 1
-          $logo_id = $company['logo_id'];
-          $logorow = $fotoopj->selectlogo($logo_id);
+        $logorow  = $logo_id ? $fotoopj->selectlogo($logo_id) : null;
 
-          $type_id = $company['company_type'];
-          $typerow = $fctopj->getTypeById($type_id);
-    ?>
-        <tr>
-          <td><img src="<?php echo $logorow['logo_path']; ?>" alt="Logo van <?php echo $company['company_name']; ?>"></td>
-          <td><?php echo $company['company_name']; ?></td>
-          <td><?php echo $company['company_emissions']; ?></td>
-          <td><?php echo $company['company_electricity_use']; ?></td>
-          <td><?php echo $typerow['type_name']; ?></td>
-          <td><?php echo $company['company_source']; ?></td>
-        </tr>
-    <?php } ?>
+        $typerow  = $type_id ? $fctopj->getTypeById($type_id) : null;
+
+        $logoPath = $logorow['logo_path'] ?? 'uploads/logos/default.png';
+        $typeName = $typerow['type_name'] ?? '—';
+  ?>
+      <tr>
+        <td>
+          <img src="<?= htmlspecialchars($logoPath) ?>" 
+               alt="Logo van <?= htmlspecialchars($company['company_name'] ?? 'Onbekend') ?>">
+        </td>
+        <td><?= htmlspecialchars($company['company_name'] ?? '') ?></td>
+        <td><?= htmlspecialchars((string)($company['company_emissions'] ?? '')) ?></td>
+        <td><?= htmlspecialchars((string)($company['company_electricity_use'] ?? '')) ?></td>
+        <td><?= htmlspecialchars($typeName) ?></td>
+        <td><?= htmlspecialchars($company['company_source'] ?? '') ?></td>
+      </tr>
+  <?php } ?>
 <?php endforeach; ?>
 
   </table>

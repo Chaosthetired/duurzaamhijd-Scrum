@@ -122,4 +122,29 @@ class company_class {
 
         $this->pdo->execute();
     }
+
+    // chatgpt made this so be carefull and check it out later if everything is really needed
+    public function moderateCompany(int $company_id, string $status, ?int $admin_id = null): bool
+    {
+    $status = strtolower($status);
+    if (!in_array($status, ['accepted', 'rejected', 'pending'], true)) {
+        throw new InvalidArgumentException('Ongeldige status');
+    }
+
+    $sql = "
+        UPDATE company_table
+           SET company_status = :status,
+               company_admin_reviewed_by_id = :admin_id,
+               company_reviewed_at = NOW()
+         WHERE company_id = :id
+    ";
+
+    $this->pdo->query($sql);
+    $this->pdo->bind(':status',   $status);
+    $this->pdo->bind(':admin_id', $admin_id);
+    $this->pdo->bind(':id',       $company_id);
+    $this->pdo->execute();
+
+    return method_exists($this->pdo, 'rowCount') ? ($this->pdo->rowCount() > 0) : true;
+    }
 }
