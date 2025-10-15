@@ -1,0 +1,13 @@
+1 download postgres als je dat niet hebt
+
+2 save the password you made for your postgres we need it for later 
+
+3 create new database in postgresSQL called company_co2_DB 
+
+4 download the .backup from github 
+
+5 import the back up(simply ask chatgpt the following prompt "how do i import a .backup in PostgreSQL")
+
+6 change in db.inc.php the password connector change it from  $pass = 'SQL_joan_arc_postgres'; to      $pass = 'your_password_here';
+
+7 test the connection if there is a problem please copy and paste the problem in chatgpt or ask me i should be avalible in the middle of the day
